@@ -402,6 +402,21 @@ function getPriceCode(itemName, choice) {
   return baseCode;
 }
 ``
+function updateSubmitButtonState() {
+  const btn = document.getElementById("submitOrderBtn");
+  btn.disabled = CART.length === 0;
+  btn.style.opacity = CART.length === 0 ? 0.5 : 1;
+}
+
+const originalUpdateCounts = updateCounts;
+updateCounts = function () {
+  originalUpdateCounts();
+  updateSubmitButtonState();
+};
+
+document.addEventListener("DOMContentLoaded", updateSubmitButtonState);
+``
+
 function getDecorationPrice(category, choice, addon) {
   if (!addon) return 0;
 
