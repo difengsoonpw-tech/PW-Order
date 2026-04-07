@@ -500,7 +500,11 @@ function renderMenu(keyword = "") {
   });
 }
 
-smartSearchInput.oninput = e => renderMenu(e.target.value);
+smartSearchInput.oninput = e => {
+  const guide = document.getElementById("orderGuide");
+  if (guide) guide.style.display = e.target.value ? "none" : "block";
+  renderMenu(e.target.value);
+};
 
 /* CART POPUP */
 submitOrderBtn.onclick = () => {
