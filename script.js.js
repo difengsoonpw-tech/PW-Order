@@ -7,6 +7,22 @@ const DECORATION_PRICE = {
   "SLAB CAKE": 10.50
 };
 
+const ORDER_POLICY_TEXT = `
+⚠ IMPORTANT:
+This order is considered CONFIRMED upon submission.
+
+• Amendments are only allowed before the Sales Advisor confirms your order.
+• No changes are allowed after the order has been submitted.
+`;
+
+const ORDER_CONFIRMATION_MESSAGE =
+`⚠ IMPORTANT:
+This order is considered CONFIRMED upon submission.
+
+• Any amendment requests must be made before confirmation by the Sales Advisor.
+• No changes will be accepted once the order has been submitted.
+
+Do you want to proceed?`;
 /* =========================================
    🔒 SELLER ONLY PRICE MAP
    (Customer never sees prices)
@@ -386,7 +402,7 @@ const PRICE_MAP = {
   /* ===== SCONE ===== */
   "SCN-P0001": 160.00
 
-
+  
   
 };
 function getPriceCode(itemName, choice) {
@@ -401,7 +417,16 @@ function getPriceCode(itemName, choice) {
 
   return baseCode;
 }
-``
+function generateOrderRef() {
+  const now = new Date();
+  const datePart = now.toISOString().slice(0, 10).replace(/-/g, "");
+  const timePart = now.getHours().toString().padStart(2, "0") +
+                   now.getMinutes().toString().padStart(2, "0");
+  const randomPart = Math.floor(100 + Math.random() * 900); // 3 digits
+
+  return `PWDF-${datePart}-${timePart}-${randomPart}`;
+}
+
 function updateSubmitButtonState() {
   const btn = document.getElementById("submitOrderBtn");
   btn.disabled = CART.length === 0;
@@ -415,7 +440,6 @@ updateCounts = function () {
 };
 
 document.addEventListener("DOMContentLoaded", updateSubmitButtonState);
-``
 
 function getDecorationPrice(category, choice, addon) {
   if (!addon) return 0;
@@ -429,9 +453,18 @@ function getDecorationPrice(category, choice, addon) {
 
   return 0;
 }
-``
 
-;let CART = [];
+let CART = [];
+
+const submitOrderBtn = document.getElementById("submitOrderBtn");
+const orderGuide = document.getElementById("orderGuide");
+const summaryPopup = document.getElementById("summaryPopup");
+const popupSummary = document.getElementById("popupSummary");
+const customerName = document.getElementById("customerName");
+const brandName = document.getElementById("brandName");
+const contactNumber = document.getElementById("contactNumber");
+const cartCount = document.getElementById("cartCount");
+const cartCountBottom = document.getElementById("cartCountBottom");
 
 function updateCounts() {
   const total = CART.reduce((s, i) => s + i.qty, 0);
@@ -522,17 +555,22 @@ smartSearchInput.oninput = e => {
 };
 
 /* CART POPUP */
-submitOrderBtn.onclick = () => {
-  if (!CART.length) return alert("Cart empty");
-  summaryPopup.style.display = "flex";
+function openOrderReview() {
+  if (!CART.length) {
+    alert("Cart empty");
+    return;
+  }
   renderCart();
-};
+  summaryPopup.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+submitOrderBtn.onclick = openOrderReview;
 
 function getUnitPrice(itemName, choice) {
   const code = getPriceCode(itemName, choice);
   return PRICE_MAP[code] ?? 0;
 }
-``
 
 function renderCart() {
   popupSummary.innerHTML = "";
@@ -571,8 +609,12 @@ function buildText() {
 
   let total = 0;
 
-  let text =
-`NEW ORDER
+  const orderRef = generateOrderRef();
+
+let text =
+`✅ ORDER CONFIRMATION
+
+Order Ref: ${orderRef}
 
 Customer: ${customerName.value}
 Brand: ${brandName.value}
@@ -597,15 +639,16 @@ ITEMS:
     text += `${item.qty} x ${item.item}${item.choice ? ` (${item.choice})` : ""}${item.addon ? ` - ${item.addon}` : ""}\n`;
   });
 
-  text += `
+  
+text += `
 -------------------------
 TOTAL PRICE: RM ${total.toFixed(2)}
 
-Remark:
-Delivery date please refer to your sales advisor
+${ORDER_POLICY_TEXT}
 `;
 
-  return text;
+return text;
+
 }
 
 function submitWhatsApp() {
