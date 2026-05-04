@@ -139,6 +139,8 @@ const PRICE_MAP = {
   "CAKE-CR8-R0029": 89.25,
   "CAKE-CR8-S0042": 89.25,
   "CAKE-CR8-S0007": 89.25,
+   "CAKE-CR8-C0030": 99.75,
+   
 
   /* ===== BLOCK CAKE ===== */
   "CAKE-BLK-Y0001": 50.40,
