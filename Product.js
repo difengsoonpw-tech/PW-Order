@@ -1459,7 +1459,7 @@ const PRODUCTS = {
       "addon": ""
     },
     { 
-      "name": "CRT-M0003 CLASSIC CROISSANT 20GM+/- (20PCS x 4PKT)", 
+      "name": "CRT-M0003 MINI CROISSANT 20GM+/- (20PCS x 4PKT)", 
        "choice": "",
        "addon": "" 
     },
