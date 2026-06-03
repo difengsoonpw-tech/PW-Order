@@ -665,4 +665,68 @@ function submitEmail() {
 
 function closeSummary() {
   summaryPopup.style.display = "none";
+}function getDecorationPrice(category, choice, addon, qty = 1) {
+  if (!addon) return 0;
+
+  if (
+    (category === "BLOCK CAKE" && choice.includes("45")) ||
+    (category === "SLAB CAKE" && choice.includes("90"))
+  ) {
+    return (DECORATION_PRICE[category] ?? 0) * qty;  // Multiply by quantity
+  }
+
+  return 0;
+}
+
+// ...existing code...
+
+function buildText() {
+  if (!customerName.value || !brandName.value || !contactNumber.value) {
+    alert("Please fill in Customer Name, Brand Name and Contact Number.");
+    return null;
+  }
+
+  let total = 0;
+
+  const orderRef = generateOrderRef();
+
+let text =
+`✅ ORDER CONFIRMATION
+
+Order Ref: ${orderRef}
+
+Customer: ${customerName.value}
+Brand: ${brandName.value}
+Contact: ${contactNumber.value}
+
+ITEMS:
+`;
+
+  CART.forEach(item => {
+    const unitPrice = getUnitPrice(item.item, item.choice);
+    const baseTotal = unitPrice * item.qty;
+
+    const decoPrice = getDecorationPrice(
+      item.category,
+      item.choice,
+      item.addon,
+      item.qty  // Pass quantity here
+    );
+
+    const lineTotal = baseTotal + decoPrice;
+    total += lineTotal;
+
+    text += `${item.qty} x ${item.item}${item.choice ? ` (${item.choice})` : ""}${item.addon ? ` - ${item.addon}` : ""}\n`;
+  });
+
+  
+text += `
+-------------------------
+TOTAL PRICE: RM ${total.toFixed(2)}
+
+${ORDER_POLICY_TEXT}
+`;
+
+return text;
+
 }
