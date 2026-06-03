@@ -632,7 +632,8 @@ ITEMS:
     const decoPrice = getDecorationPrice(
       item.category,
       item.choice,
-      item.addon
+      item.addon,
+      item.qty  // Pass quantity here
     );
 
     const lineTotal = baseTotal + decoPrice;
