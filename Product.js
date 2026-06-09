@@ -1409,6 +1409,31 @@ const PRODUCTS = {
       "addon": ""
     },
     {
+      "name": "DP-N0001 PAIN SUISSE NYONYA CHICKEN 80GM+/- x 20PCS",
+      "choice": "",
+      "addon": ""
+    },
+    {
+      "name": "DP-T0001 TANDOORI CHICKEN AND CHEESE 80GM+/- x 20PCS",
+      "choice": "",
+      "addon": ""
+    },
+    {
+      "name": "DP-Y0001 DANISH YAM MOCHI 145GM+/- x 20PCS",
+      "choice": "",
+      "addon": ""
+    },
+    {
+      "name": "DP-A0002 DANISH APPLE OSMANTHUS 130GM+/- x 20PCS",
+      "choice": "",
+      "addon": ""
+    },
+    {
+      "name": "CRT-B0013 BAKED CHEESE CROISSANT 100GM+/- x 20PCS",
+      "choice": "",
+      "addon": ""
+    },
+    {
       "name": "DP-C0001 CRUFFIN 120GM+/- x 24PCS",
       "choice": "",
       "addon": ""
